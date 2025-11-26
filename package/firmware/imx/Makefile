@@ -60,10 +60,8 @@ SOC_NAME= \
 		echo iMX91; \
 	elif [[ $(CONFIG_TARGET_PROFILE) =~ imx93 ]]; then \
 		echo iMX93; \
-	elif [[ $(CONFIG_TARGET_PROFILE) =~ imx95 ]]; then \
-		echo iMX95; \
 	else \
-		echo iMX8M; \
+		echo iMX95; \
 	fi; )
 
 define Package/firmware-imx/install
@@ -71,10 +69,13 @@ define Package/firmware-imx/install
 ifeq ($(SUBTARGET),cortexa53)
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/$(FIRMWARE_IMX)/firmware/ddr/synopsys/* \
 		$(PKG_BUILD_DIR)/$(FIRMWARE_IMX)/firmware/hdmi/cadence/* \
-		$(STAGING_DIR_IMAGE)/imx-mkimage/$(SOC_NAME)
+		$(STAGING_DIR_IMAGE)/imx-mkimage/iMX8M
 	$(INSTALL_DATA) \
 		$(PKG_BUILD_DIR)/$(FIRMWARE_IMX)/firmware/sdma/sdma-imx7d.bin \
 		$(1)/lib/firmware/imx/sdma
+else ifeq ($(SUBTARGET),cortexa55)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/$(FIRMWARE_IMX)/firmware/ddr/synopsys/* \
+		$(STAGING_DIR_IMAGE)/imx-mkimage/$(SOC_NAME)
 endif
 endef
 
